@@ -1,0 +1,34 @@
+# Eclipse
+.metadata
+bin/
+tmp/
+.settings/
+.classpath
+.project
+
+# IntelliJ
+.idea/
+
+# Compiled files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Maven
+target/
+
+# Gradle
+build/
+
+# Logs and databases
+*.log
+*.sqlite
+*.sqlite3
+*.h2.db
+
+# OS-specific files
+.DS_Store
+Thumbs.db
