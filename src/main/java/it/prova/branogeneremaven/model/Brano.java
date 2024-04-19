@@ -92,19 +92,4 @@ public class Brano {
 				+ dataPubblicazione + ", generi=" + generi + "]";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
-
