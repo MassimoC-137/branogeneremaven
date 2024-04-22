@@ -52,10 +52,10 @@ public class BranoDAOImpl implements BranoDAO {
 	}
 
 	@Override
-	public List<Brano> caricaBraniPerGenere(Long idBranoInput) throws Exception {
+	public Brano caricaBranoPerGenere(Long idBranoInput) throws Exception {
 		TypedQuery<Brano> query = entityManager.createQuery("SELECT b FROM Brano b LEFT JOIN FETCH b.generi g WHERE b.id = :idbrano", Brano.class); 
 		query.setParameter("idbrano", idBranoInput); 
-		return query.getResultList();
+		return query.getResultList().stream().findFirst().orElse(null);
 	}
 
 	@Override

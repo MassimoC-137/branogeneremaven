@@ -13,16 +13,16 @@ public interface BranoService {
 
 	public List<Brano> list() throws Exception;
 
-	public Brano get(Long id) throws Exception;
+	public Brano get(Long idBranoInput) throws Exception;
 
 	public void update(Brano branoInstance) throws Exception;
 
 	public void insert(Brano branoInstance) throws Exception;
 
-	public void delete(Long id) throws Exception;
+	public void delete(Long idBranoInput) throws Exception;
 	
 
-	public List<Brano> caricaBraniPerGenere(Long idBranoInput) throws Exception;
+	public Brano caricaBranoPerGenere(Long idGBranoInput) throws Exception;
 
 	public void rimuoviBranoMaPrimaScollega(Long idBranoInput) throws Exception;
 

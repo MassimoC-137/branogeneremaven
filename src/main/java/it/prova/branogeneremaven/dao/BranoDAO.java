@@ -7,7 +7,7 @@ import it.prova.branogeneremaven.model.Genere;
 
 public interface BranoDAO extends IBaseDAO<Brano>{
 	
-	public List<Brano> caricaBraniPerGenere(Long idBranoInput) throws Exception; 
+	public Brano caricaBranoPerGenere(Long idBranoInput) throws Exception; 
 	
 	public void rimuoviBranoMaPrimaScollega(Long idBranoInput) throws Exception; 
 	
