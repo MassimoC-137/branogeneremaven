@@ -6,6 +6,12 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.hibernate.internal.StaticFilterAliasGenerator;
+
 import it.prova.branogeneremaven.model.Brano;
 import it.prova.branogeneremaven.model.Genere;
 import it.prova.branogeneremaven.service.BranoService;
@@ -110,69 +116,69 @@ public interface TestInterface {
 						System.out.println("L'id inserito non è valido. ");
 						break;
 					}
-					
+
 					System.out.println("Inserisci il nuovo titolo:");
-			        String titoloB3 = scanner.nextLine(); 
+					String titoloB3 = scanner.nextLine();
 
-			        System.out.println("Inserisci il nuovo autore:");
-			        String autoreB3 = scanner.nextLine(); 
+					System.out.println("Inserisci il nuovo autore:");
+					String autoreB3 = scanner.nextLine();
 
-			        System.out.println("Inserisci la data di pubblicazione [dd.MM.yyyy]:");
-			        String strDataB3 = scanner.nextLine();
-			        LocalDate dataB3 = null;
-			        try {
-			            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-			            dataB3 = LocalDate.parse(strDataB3, formatter);
-			        } catch (DateTimeParseException e) {
-			            System.out.println("La data inserita non è valida.");
-			            break;
-			        }
+					System.out.println("Inserisci la data di pubblicazione [dd.MM.yyyy]:");
+					String strDataB3 = scanner.nextLine();
+					LocalDate dataB3 = null;
+					try {
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+						dataB3 = LocalDate.parse(strDataB3, formatter);
+					} catch (DateTimeParseException e) {
+						System.out.println("La data inserita non è valida.");
+						break;
+					}
 
-			        brano.setTitolo(titoloB3);
-			        brano.setAutore(autoreB3);
-			        brano.setDataPubblicazione(dataB3);
+					brano.setTitolo(titoloB3);
+					brano.setAutore(autoreB3);
+					brano.setDataPubblicazione(dataB3);
 
-			        branoServiceInstance.update(brano);
-			        System.out.println("Brano aggiornato con successo!");
+					branoServiceInstance.update(brano);
+					System.out.println("Brano aggiornato con successo!");
 
-			    } catch (Exception e) {
-			        System.out.println("Errore: " + e.getMessage());
-			        e.printStackTrace();
-			        break;
-			    }
-			    break;
+				} catch (Exception e) {
+					System.out.println("Errore: " + e.getMessage());
+					e.printStackTrace();
+					break;
+				}
+				break;
 			case 4:
 				System.out.println("Hai scelto il comando 4");
 				System.out.println("Qual è il titolo del brano che vuoi inserire? ");
-				
+
 				try {
-			        System.out.println("Inserisci il titolo del brano:");
-			        String titolo = scanner.nextLine();
+					System.out.println("Inserisci il titolo del brano:");
+					String titolo = scanner.nextLine();
 
-			        System.out.println("Inserisci l'autore del brano:");
-			        String autore = scanner.nextLine();
+					System.out.println("Inserisci l'autore del brano:");
+					String autore = scanner.nextLine();
 
-			        System.out.println("Inserisci la data di pubblicazione del brano [dd.MM.yyyy]:");
-			        String dataPubblicazione = scanner.nextLine();
-			        LocalDate data = LocalDate.parse(dataPubblicazione, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+					System.out.println("Inserisci la data di pubblicazione del brano [dd.MM.yyyy]:");
+					String dataPubblicazione = scanner.nextLine();
+					LocalDate data = LocalDate.parse(dataPubblicazione, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-			        Brano nuovoBrano = new Brano();
-			        nuovoBrano.setTitolo(titolo);
-			        nuovoBrano.setAutore(autore);
-			        nuovoBrano.setDataPubblicazione(data);
+					Brano nuovoBrano = new Brano();
+					nuovoBrano.setTitolo(titolo);
+					nuovoBrano.setAutore(autore);
+					nuovoBrano.setDataPubblicazione(data);
 
-			        BranoService branoService = MyServiceFactory.getBranoServiceInstance();
-			        branoService.insert(nuovoBrano);
+					BranoService branoService = MyServiceFactory.getBranoServiceInstance();
+					branoService.insert(nuovoBrano);
 
-			        System.out.println("Nuovo brano inserito con successo!");
+					System.out.println("Nuovo brano inserito con successo!");
 
-			    } catch (DateTimeParseException e) {
-			        System.out.println("Errore: La data inserita non è valida.");
-			    } catch (Exception e) {
-			        System.out.println("Errore durante l'inserimento del brano: " + e.getMessage());
-			        e.printStackTrace();
-			    }
-			    break;
+				} catch (DateTimeParseException e) {
+					System.out.println("Errore: La data inserita non è valida.");
+				} catch (Exception e) {
+					System.out.println("Errore durante l'inserimento del brano: " + e.getMessage());
+					e.printStackTrace();
+				}
+				break;
 
 			case 5:
 				System.out.println("Hai scelto il comando 5");
@@ -243,5 +249,9 @@ public interface TestInterface {
 			default:
 				System.out.println("Comando inserito non trovato o non valido. ");
 			}
-		}System.out.println("Grazie per aver utilizzato il programma Brano-Genere. ");scanner.close();
-}}
+		}
+		System.out.println("Grazie per aver utilizzato il programma Brano-Genere. ");
+		scanner.close();
+	}
+
+}
