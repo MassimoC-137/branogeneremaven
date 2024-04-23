@@ -3,6 +3,7 @@ package it.prova.branogeneremaven.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +24,7 @@ public class Genere {
 	@Column(name="descrizione")
 	private String descrizione; 
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "generi")
+	@ManyToMany(mappedBy = "generi", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Brano> brani = new HashSet<Brano>(); 
 	
 	public Genere() {
@@ -61,7 +62,7 @@ public class Genere {
 
 	@Override
 	public String toString() {
-		return "Genere [id=" + id + ", descrizione=" + descrizione + ", brani=" + brani + "]";
+		return "Genere [id=" + id + ", descrizione=" + descrizione + "]";
 	}
 	
 }

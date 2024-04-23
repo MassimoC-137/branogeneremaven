@@ -32,7 +32,7 @@ public class Brano {
 	@Column(name="data_pubblicazione")
 	private LocalDate dataPubblicazione; 
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JoinTable(name="brani_genere", joinColumns = @JoinColumn(name="idbrano", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name="idgenere", referencedColumnName = "id"))
 	private Set<Genere> generi = new HashSet<Genere>(); 
 	

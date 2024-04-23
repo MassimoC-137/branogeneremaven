@@ -14,7 +14,7 @@ public class GenereDAOImpl implements GenereDAO {
 
 	@Override
 	public List<Genere> list() throws Exception {
-		return entityManager.createQuery("FROM Genere", Genere.class).getResultList();
+		return entityManager.createQuery("SELECT g FROM Genere g JOIN FETCH g.brani WHERE g.id = :id", Genere.class).getResultList();
 	}
 
 	@Override

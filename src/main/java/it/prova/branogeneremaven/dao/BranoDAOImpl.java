@@ -30,6 +30,7 @@ public class BranoDAOImpl implements BranoDAO {
 			throw new Exception("Errore nei valori in input. "); 
 		}
 		o = entityManager.merge(o); 
+		entityManager.flush();
 	}
 
 	@Override
