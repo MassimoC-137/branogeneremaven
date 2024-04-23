@@ -40,10 +40,11 @@ public class Brano {
 		
 	}
 	
-	public Brano (String titolo, String autore, LocalDate dataPubblicazione) {
+	public Brano (String titolo, String autore, LocalDate dataPubblicazione, Set<Genere> generi) {
 		this.titolo = titolo; 
 		this.autore = autore; 
 		this.dataPubblicazione = dataPubblicazione; 
+		this.generi = generi; 
 	}
 	
 	public Long getId() {

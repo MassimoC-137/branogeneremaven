@@ -1,6 +1,8 @@
 package it.prova.branogeneremaven.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -35,7 +37,18 @@ public class BranoDAOImpl implements BranoDAO {
 		if (o == null) {
 			throw new Exception("Errore nei valori in input. "); 
 		}
-		entityManager.persist(o);
+		Set<Genere> managedGeneri = new HashSet<>();
+	    for (Genere genere : o.getGeneri()) {
+	        if (entityManager.contains(genere)) {
+	            managedGeneri.add(genere);
+	        } else {
+	            managedGeneri.add(entityManager.merge(genere));
+	        }
+	    }
+	    
+	    o.setGeneri(managedGeneri);
+	    entityManager.persist(o);
+	
 	}
 
 	@Override

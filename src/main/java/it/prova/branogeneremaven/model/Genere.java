@@ -30,8 +30,9 @@ public class Genere {
 		
 	}
 	
-	public Genere(String descrizione) {
+	public Genere(String descrizione, Set<Brano> brani) {
 		this.descrizione = descrizione; 
+		this.brani = brani; 
 	}
 	
 	public Long getId() {
