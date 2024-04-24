@@ -3,6 +3,7 @@ package it.prova.branogeneremaven.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import it.prova.branogeneremaven.dao.BranoDAO;
 import it.prova.branogeneremaven.dao.EntityManagerUtil;
@@ -86,12 +87,16 @@ public class BranoServiceImpl implements BranoService {
 		try {
 			entityManager.getTransaction().begin(); 
 			branoDAO.setEntityManager(entityManager);
+			System.out.println("prima della delete");
 			branoDAO.delete(branoDAO.get(idBranoInput));
+			System.out.println("dopo la delete ");
 			entityManager.getTransaction().commit();
-		} catch (Exception e) {
+		} catch (NoResultException e) {
+			System.out.println("Non esiste alcun brano con id: " + idBranoInput);
 			entityManager.getTransaction().rollback();
-			e.printStackTrace();
 			throw e; 
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}

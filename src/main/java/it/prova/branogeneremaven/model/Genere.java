@@ -24,7 +24,7 @@ public class Genere {
 	@Column(name="descrizione")
 	private String descrizione; 
 	
-	@ManyToMany(mappedBy = "generi", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "generi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Brano> brani = new HashSet<Brano>(); 
 	
 	public Genere() {

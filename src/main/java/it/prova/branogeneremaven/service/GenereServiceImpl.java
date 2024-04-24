@@ -82,20 +82,21 @@ public class GenereServiceImpl implements GenereService {
 
 	@Override
 	public void delete(Long id) throws Exception {
-		EntityManager entityManager = EntityManagerUtil.getEntityManager(); 
-		try {
-			entityManager.getTransaction().begin();
-			genereDAO.setEntityManager(entityManager);
-			genereDAO.delete(genereDAO.get(id));
-			entityManager.getTransaction().commit();
-		} catch (Exception e) {
-			entityManager.getTransaction().rollback();
-			e.printStackTrace();
-			throw e; 
-		} finally {
-			EntityManagerUtil.closeEntityManager(entityManager);
-		}
+	    EntityManager entityManager = EntityManagerUtil.getEntityManager();
+	    try {
+	        entityManager.getTransaction().begin();
+	        genereDAO.setEntityManager(entityManager);
+	        genereDAO.rimuoviGenereSeNonCollegato(id);
+	        entityManager.getTransaction().commit();
+	    } catch (Exception e) {
+	        entityManager.getTransaction().rollback();
+	        e.printStackTrace();
+	        throw e; 
+	    } finally {
+	        EntityManagerUtil.closeEntityManager(entityManager);
+	    }
 	}
+
 
 	@Override
 	public Genere cercaPerDescrizione(String descrizione) throws Exception {

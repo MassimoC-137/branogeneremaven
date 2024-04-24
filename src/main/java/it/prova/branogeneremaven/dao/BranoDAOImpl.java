@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import it.prova.branogeneremaven.model.Brano;
@@ -16,12 +18,25 @@ public class BranoDAOImpl implements BranoDAO {
 
 	@Override
 	public List<Brano> list() throws Exception {
-		return entityManager.createQuery("FROM Brano", Brano.class).getResultList();
-	}
+		return entityManager.createQuery("SELECT DISTINCT b FROM Brano b JOIN FETCH b.generi", Brano.class).getResultList();
+		}
 
 	@Override
 	public Brano get(Long id) throws Exception {
-		return entityManager.find(Brano.class, id);
+	    if (id == null) {
+	        throw new IllegalArgumentException("L'id non può essere nullo");
+	    }
+
+	    TypedQuery<Brano> query = entityManager.createQuery("SELECT b FROM Brano b JOIN FETCH b.generi WHERE b.id = :id", Brano.class);
+	    query.setParameter("id", id);
+
+	    try {
+	        return query.getSingleResult();
+	    } catch (NoResultException e) {
+	        return null;
+	    } catch (Exception e) {
+	        throw new Exception("Errore nell'id brano: " + id, e);
+	    }
 	}
 
 	@Override
@@ -71,23 +86,31 @@ public class BranoDAOImpl implements BranoDAO {
 		query.setParameter("idbrano", idBranoInput); 
 		return query.getResultList().stream().findFirst().orElse(null);
 	}
-
+	
 	@Override
 	public void rimuoviBranoMaPrimaScollega(Long idBranoInput) throws Exception {
-		entityManager.createNativeQuery("DELETE FROM brani_genere m WHERE m.idbrano = ?1").setParameter(1, idBranoInput); 
-		entityManager.createNativeQuery("DELETE FROM brano b WHERE b.id = ?1").executeUpdate(); 
+	    Query queryRelazione = entityManager.createNativeQuery("DELETE FROM brani_genere WHERE idbrano = ?1");
+	    queryRelazione.setParameter(1, idBranoInput);
+	    queryRelazione.executeUpdate();
+
+	    Query queryBrano = entityManager.createNativeQuery("DELETE FROM brano WHERE id = ?1");
+	    queryBrano.setParameter(1, idBranoInput);
+	    queryBrano.executeUpdate();
 	}
 
+
 	@Override
-	public List<Genere> descrizioneGeneriAssociatiBrano(Long idBranoInput) throws Exception {
-		TypedQuery<Genere> query = entityManager.createQuery("SELECT g FROM genere g LEFT JOIN FETCH g.brani b WHERE b.id = :idbrano", Genere.class); 
-		query.setParameter("idbrano", idBranoInput); 
-		return query.getResultList();
+	public List<Genere> descrizioneGeneriAssociatiBrano(Long idBrano) throws Exception {
+	    TypedQuery<Genere> query = entityManager.createQuery("SELECT g FROM Genere g JOIN FETCH g.brani b WHERE b.id = :idbrano", Genere.class);
+	    query.setParameter("idbrano", idBrano);
+
+	    return query.getResultList();
 	}
+
 
 	@Override
 	public List<Brano> conDescrizioneDaPiuDieci() throws Exception {
-		return entityManager.createQuery("SELECT DISTINCT b FROM Brano b JOIN b.generi g WHERE LENGTH (g.descrizione) > 10", Brano.class).getResultList();
+		return entityManager.createQuery("SELECT DISTINCT b FROM Brano b JOIN FETCH b.generi g WHERE LENGTH (g.descrizione) > 10", Brano.class).getResultList();
 	}
 
 }

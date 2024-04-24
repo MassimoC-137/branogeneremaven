@@ -1,9 +1,11 @@
 package it.prova.branogeneremaven.dao;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import it.prova.branogeneremaven.model.Genere;
@@ -14,7 +16,7 @@ public class GenereDAOImpl implements GenereDAO {
 
 	@Override
 	public List<Genere> list() throws Exception {
-		return entityManager.createQuery("SELECT g FROM Genere g JOIN FETCH g.brani WHERE g.id = :id", Genere.class).getResultList();
+		return entityManager.createQuery("SELECT DISTINCT g FROM Genere g LEFT JOIN FETCH g.brani", Genere.class).getResultList();
 	}
 
 	@Override
@@ -67,5 +69,24 @@ public class GenereDAOImpl implements GenereDAO {
 		query.setParameter(2, dataFine);
 		return query.getResultList();
 	}
+	
+	@Override
+	public void rimuoviGenereSeNonCollegato(Long idGenereInput) throws Exception {
+	    Query queryCheck = entityManager.createNativeQuery("SELECT COUNT(*) FROM brani_genere WHERE idgenere = ?1");
+	    queryCheck.setParameter(1, idGenereInput);
+	    BigInteger countResult = (BigInteger) queryCheck.getSingleResult();
+	    long count = countResult.longValue();
+
+	    if (count > 0) {
+	        System.out.println("Impossibile eliminare il genere perché ha dei brani collegati.");
+	    } else {
+	        Query queryDelete = entityManager.createNativeQuery("DELETE FROM genere WHERE id = ?1");
+	        queryDelete.setParameter(1, idGenereInput);
+	        queryDelete.executeUpdate();
+	        System.out.println("Genere eliminato con successo.");
+	    }
+	}
+
+
 
 }

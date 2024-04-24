@@ -9,5 +9,7 @@ public interface GenereDAO extends IBaseDAO<Genere>{
 
 	public Genere cercaPerDescrizione(String descrizione)throws Exception; 
 	
-	public List<Genere> braniPubblicatiTra(LocalDate dataInizio, LocalDate dataFine) throws Exception; 
+	public List<Genere> braniPubblicatiTra(LocalDate dataInizio, LocalDate dataFine) throws Exception;
+
+	void rimuoviGenereSeNonCollegato(Long idGenereInput) throws Exception; 
 }
